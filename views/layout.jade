@@ -1,0 +1,53 @@
+doctype html
+html
+	head
+		meta(charset="utf-8")
+		meta(http-equiv="X-UA-Compatible", content="IE=edge")
+		meta(name="viewport", content="width=device-width, initial-scale=1")
+		meta(name="description", content="NodeJs blog inspired by Nodejs and CleanBlog Theme")
+		meta(name="author", content="George Otieno")
+		title=appTitle
+		// Bootstrap Core CSS
+		link(rel='stylesheet', href='/css/bootstrap/css/bootstrap.min.css')
+		// Custom CSS
+		link(rel='stylesheet', href='/css/clean-blog.min.css')
+		// Custom Fonts
+		link(rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css')
+		link(rel='stylesheet' href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic')
+		link(rel='stylesheet' href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800')
+	body
+		nav(class="navbar navbar-default navbar-custom navbar-fixed-top")
+			div(class="container-fluid")
+				// Brand and toggle get grouped for better mobile display
+				div(class="navbar-header page-scroll")
+					button(type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1")
+						span(class="sr-only") Toggle navigation
+						span(class="icon-bar")
+						span(class="icon-bar")
+						span(class="icon-bar")
+					a(class="navbar-brand" href="/") NodeJs Blog
+				// Collect the nav links, forms, and other content for toggling
+				div(class="collapse navbar-collapse" id="bs-example-navbar-collapse-1")
+					ul(class="nav navbar-nav navbar-right")
+						li
+							a(href="/") Home
+						li
+							a(href="/") About
+						li
+							a(href="/") Sample post
+						li
+							a(href="/") Contact
+		// page header
+		// Set your background image for this header on the line below.
+		header(class="intro-header" style="background-image: url('/img/home-bg.jpg')")
+			div(class="container")
+				div(class="row")
+					div(class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1")
+						div(class="site-heading")
+							h1 NodeJs Blog
+							hr(class="small")
+							span(class="subheading") NodeJs blog inspired by CleanBlog Theme
+		// Main Content
+		div(class="container")
+			block content
+
