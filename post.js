@@ -13,7 +13,6 @@ var postSchema  = new mongoose.Schema({
 		default : "New Post Entry"
 	},
 	text : String,
-	author : String,
 	slug : {
 		type : String,
 		set : function(value) {

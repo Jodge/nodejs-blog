@@ -3,7 +3,7 @@ var express = require('express'),
 	http = require('http'),
 	path = require('path'),
 	mongoose = require('mongoose'),
-	models = require('./public/models'),
+	models = require('./models'),
 	dbUrl = process.env.MONGOHQ_URL || 'mongodb://@localhost:27017/nodejs',
 	db = mongoose.connect(dbUrl, {safe : true});
 
