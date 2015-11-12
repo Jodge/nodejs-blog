@@ -1,4 +1,16 @@
 extends layout
 
 block content
-	h1 Welcome to landing page for NodeJs Blog
+	div(class="row")
+		if (articles.length === 0)
+			| There's no published content yet.
+		else
+			each post, index in posts
+				div(class="post-preview")
+					a(href="/posts/#{post.slug}")
+						h2(class="post-title")= post.title 
+					p(class="post-meta") Posted by George Otieno on November 12, 2015
+				hr
+				ul(class="pager")
+					li(class="next")
+						a(href="#") Older Posts &rarr;
