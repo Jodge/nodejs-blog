@@ -9,22 +9,23 @@ REQUIREMENTS
 
 To Run this app, first install the module dependencies. Navigate to the project root directory and run the commands below
 
-$npm install
+**$npm install**
 
 N/B : For linux use **sudo** if you experience permission issues 
 
 Run the app
 
-$nodejs app.js
+**$nodejs app.js**
 
 Windows plaform, you can run the app
 
 > node app.js
 
 To add sample users and posts data, navigate to the db directory
+
 linux plaform execute
 
-$sh seeds.sh
+**$sh seeds.sh**
 
 windows platform execute
 
