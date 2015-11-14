@@ -12,10 +12,14 @@ var postSchema  = new mongoose.Schema({
 		],
 		default : "New Post Entry"
 	},
-	text : String,
+	text : {
+		type : String,
+		required : true
+	},
 	author : String,
 	slug : {
 		type : String,
+		required : true,
 		set : function(value) {
 			return value.toLowerCase().replace(' ', '-')
 		}

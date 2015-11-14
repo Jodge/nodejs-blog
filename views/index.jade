@@ -1,16 +1,16 @@
 extends layout
 
 block content
-	div(class="row")
+	div.row
 		if (posts.length === 0)
 			| There's no published content yet.
 		else
 			each post, index in posts
-				div(class="post-preview")
+				div.post-preview
 					a(href="/posts/#{post.slug}")
 						h2(class="post-title")= post.title 
-					p(class="post-meta") Posted by #{post.author} on November 12, 2015
+					p.post-meta Posted by #{post.author} on November 12, 2015
 		hr
-		ul(class="pager")
-			li(class="next")
+		ul.pager
+			li.next
 				a(href="#") Older Posts &rarr;

@@ -43,6 +43,9 @@ if ('development' == app.get('env')) {
 
 // pages and routes
 app.get('/', routes.index);
+app.get('/posts/:slug', routes.post.show);
+app.get('/post', routes.post.post);
+app.post('/post', routes.post.postArticle);
 
 app.all('*', function(req, res) {
 	res.sendStatus(404);
