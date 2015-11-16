@@ -1,0 +1,17 @@
+extends layout
+
+block content
+	div.row
+		div(class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1")
+			div.text-primary= error
+			h2(class="subheading") Login
+			form(action="/login", method="post", role="form")
+				div.form-group
+					label(for="email") Email
+					input#title.form-control(name="email", type="text", required="required", placeholder="Email")
+				div.form-group
+					label(for="password") Password
+					input#password.form-control(name="password", type="password", required="required", placeholder="****")
+					span.help-block 6 to 10 characters
+				p
+					button.btn.btn-primary(type="submit") Login

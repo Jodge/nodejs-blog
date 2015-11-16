@@ -12,9 +12,11 @@
 		"jade" : "1.11.0",
 		"stylus" : "0.52.4",
 		"errorhandler" : "1.4.2",
-    	"body-parser": "1.14.1",
+    	"body-parser": "1.0.2",
     	"morgan" : "1.6.1",
     	"method-override" : "2.3.5",
-    	"mongoose" : "4.2.5"
+    	"mongoose" : "4.2.5",
+    	"express-session" : "1.12.1",
+    	"cookie-parser" : "1.4.0"
 	}
 }

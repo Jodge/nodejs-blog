@@ -3,9 +3,9 @@ extends layout
 block content
 	div.row
 		div(class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1")
-			div= error
+			div.text-primary= error
 			h2(class="subheading") Post an article
-			form(action="/post", method="POST", role="form", enctype="application/x-www-form-urlencoded")
+			form(action="/post", method="post", role="form")
 				div.form-group
 					label(for="title") Title
 					input#title.form-control(name="title", type="text", required="required", placeholder="Awesome title")
@@ -15,6 +15,6 @@ block content
 					span.help-block This string will be used in the URL
 				div.form-group
 					label(for="text") Text
-					textarea#text.form-control(rows="5", name="text", required="required", placeholder="Text")
+					textarea#text.form-control(rows="5", name="text", placeholder="Text")
 				p
 					button.btn.btn-primary(type="submit") Save

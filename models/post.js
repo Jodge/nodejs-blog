@@ -12,10 +12,7 @@ var postSchema  = new mongoose.Schema({
 		],
 		default : "New Post Entry"
 	},
-	text : {
-		type : String,
-		required : true
-	},
+	text : String,
 	author : String,
 	slug : {
 		type : String,

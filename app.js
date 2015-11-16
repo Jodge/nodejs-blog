@@ -11,13 +11,15 @@ var express = require('express'),
 var logger = require('morgan'),
 	errorHandler = require('errorhandler'),
 	bodyParser = require('body-parser'),
-	methodOverride = require('method-override');
+	methodOverride = require('method-override'),
+	cookieParser = require('cookie-parser'),
+	session = require('express-session');
 
 var app = express();
 app.locals.appTitle = 'NodeJS Blog';
 
 app.use(function(req, res, next) {
-	if(!models.Post)
+	if(!models.Post && !models.User)
 		return next(new Error("No models"))
 	req.models = models;
 	return next();
@@ -31,10 +33,27 @@ app.set('view engine', 'jade');
 // Express.js middleware configuration
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(cookieParser());
+app.use(session({secret : '3T67774A-R649-4D44-9735-43E296ZZ980F', resave : true, saveUninitialized : true}));
 app.use(methodOverride());
 app.use(require('stylus').middleware(__dirname + '/public'));
 app.use(express.static(__dirname + '/public'));
+
+// Authentication middleware
+app.use(function(req, res, next) {
+	if (req.session && req.session.logged)
+		res.locals.logged = true;
+	next();
+});
+
+// Authorization middleware
+var authorize = function(req, res, next) {
+	if (req.session && req.session.logged) 
+		return next();
+	else
+		return res.send(401);
+};
 
 // development only
 if ('development' == app.get('env')) {
@@ -44,8 +63,11 @@ if ('development' == app.get('env')) {
 // pages and routes
 app.get('/', routes.index);
 app.get('/posts/:slug', routes.post.show);
-app.get('/post', routes.post.post);
-app.post('/post', routes.post.postArticle);
+app.get('/post', authorize, routes.post.post);
+app.post('/post', authorize, routes.post.postArticle);
+app.get('/login', routes.user.login);
+app.post('/login', routes.user.authenticate);
+app.post('/logout', routes.user.logout);
 
 app.all('*', function(req, res) {
 	res.sendStatus(404);
