@@ -37,10 +37,11 @@ exports.post = function(req, res, next) {
   	var post = {
   		title : req.body.title,
   		slug : req.body.slug,
-  		text : req.body.text
+  		text : req.body.text,
+      author: req.session.user.fullname
   	};
   	req.models.Post.create(post, function(error, postResponse) {
   		if (error) return next(error);
-  		res.render('post', {error: 'Your post has been added succesfully'});
+  		res.render('post', {success: 'Your post has been added succesfully'});
   	});
   };

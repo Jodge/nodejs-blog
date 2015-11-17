@@ -3,7 +3,8 @@ extends layout
 block content
 	div.row
 		div(class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1")
-			div.text-primary= error
+			div.text-danger= error
+			div.text-success= success
 			h2(class="subheading") Post an article
 			form(action="/post", method="post", role="form")
 				div.form-group
@@ -11,7 +12,7 @@ block content
 					input#title.form-control(name="title", type="text", required="required", placeholder="Awesome title")
 				div.form-group
 					label(for="slug") Slug
-					input#slug.form-control(name="slug", type="text", required="required", placeholder="awesome-title")
+					input#slug.form-control(name="slug", type="text", required="required", placeholder="awesome-slug")
 					span.help-block This string will be used in the URL
 				div.form-group
 					label(for="text") Text

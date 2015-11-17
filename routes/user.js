@@ -33,6 +33,7 @@
   		if (error) return next(error);
   		if (!user) return res.render('login', {error : 'Incorrect email&password combination'});
   		req.session.user = user;
+      req.session.logged = true;
   		res.redirect('/');
   	})
   };

@@ -20,6 +20,11 @@ var postSchema  = new mongoose.Schema({
 		set : function(value) {
 			return value.toLowerCase().replace(' ', '-')
 		}
+	},
+	created_at : {
+		type : Date,
+		required : true,
+		default : Date.now
 	}
 });
 
