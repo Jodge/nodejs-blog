@@ -52,7 +52,7 @@ var authorize = function(req, res, next) {
 	if (req.session && req.session.logged) 
 		return next();
 	else
-		return res.send(401);
+		return res.redirect('/login');
 };
 
 // development only
@@ -62,12 +62,13 @@ if ('development' == app.get('env')) {
 
 // pages and routes
 app.get('/', routes.index);
-app.get('/posts/:slug', routes.post.show);
-app.get('/post', authorize, routes.post.post);
-app.post('/post', authorize, routes.post.postArticle);
+app.get('/posts/:slug', routes.article.show);
+app.get('/post', authorize, routes.article.post);
+app.post('/post', authorize, routes.article.postArticle);
+app.get('/manage', authorize, routes.article.manage)
 app.get('/login', routes.user.login);
 app.post('/login', routes.user.authenticate);
-app.post('/logout', routes.user.logout);
+app.get('/logout', routes.user.logout);
 
 app.all('*', function(req, res) {
 	res.sendStatus(404);

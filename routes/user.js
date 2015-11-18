@@ -31,9 +31,9 @@
   		password : req.body.password
   	}, function(error, user) {
   		if (error) return next(error);
-  		if (!user) return res.render('login', {error : 'Incorrect email&password combination'});
-  		req.session.user = user;
+  		if (!user) return res.render('login', {error : 'Incorrect email & password combination'});
+  		req.session.user = user.toObject().fullname;
       req.session.logged = true;
-  		res.redirect('/');
+  		res.redirect('/manage');
   	})
   };

@@ -38,10 +38,21 @@ exports.post = function(req, res, next) {
   		title : req.body.title,
   		slug : req.body.slug,
   		text : req.body.text,
-      author: req.session.user.fullname
+      author: req.session.user,
+      published: false
   	};
   	req.models.Post.create(post, function(error, postResponse) {
   		if (error) return next(error);
   		res.render('post', {success: 'Your post has been added succesfully'});
   	});
+  };
+
+  /*
+   * GET manage page
+   */
+  exports.manage = function(req, res, next) {
+    req.models.Post.find({"author" : req.session.user}, null, {sort: {_id:-1}}, function(error, posts)  {
+      if (error) return next(error);
+      res.render('manage', {posts : posts});
+    });
   };
