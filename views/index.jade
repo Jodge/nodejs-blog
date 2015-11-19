@@ -5,14 +5,15 @@ block content
 		if (posts.length === 0)
 			| There's no published content yet.
 			p
-				a(href="/post" class="button btn btn-primary") Write Article
+				a(href="/post") 
+					button.btn.btn-primary Write Article
 		else
 			each post, index in posts
 				div.post-preview
 					a(href="/posts/#{post.slug}")
 						h2(class="post-title")= post.title 
 					p.post-meta Posted by #{post.author} on #{post.created_at}
-		hr
-		ul.pager
-			li.next
-				a(href="#") Older Posts &rarr;
+			hr
+			ul.pager
+				li.next
+					a(href="#") Older Posts &rarr;
