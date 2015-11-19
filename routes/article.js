@@ -38,12 +38,12 @@ exports.post = function(req, res, next) {
   		title : req.body.title,
   		slug : req.body.slug,
   		text : req.body.text,
-      author: req.session.user,
-      published: false
+		author: req.session.user,
+		published: false
   	};
   	req.models.Post.create(post, function(error, postResponse) {
   		if (error) return next(error);
-  		res.render('post', {success: 'Your post has been added succesfully'});
+  		res.render('post', {success: 'Your article has been added succesfully, go to manage page to publish it'});
   	});
   };
 
