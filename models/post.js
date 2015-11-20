@@ -14,6 +14,10 @@ var postSchema  = new mongoose.Schema({
 	},
 	text : String,
 	author : String,
+	published : {
+		type : Boolean,
+		default : false
+	},
 	slug : {
 		type : String,
 		required : true,

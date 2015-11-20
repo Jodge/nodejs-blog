@@ -1,5 +1,6 @@
 doctype html
 html
+	block vars
 	head
 		meta(charset="utf-8")
 		meta(http-equiv="X-UA-Compatible", content="IE=edge")
@@ -11,6 +12,7 @@ html
 		link(rel='stylesheet', href='/css/bootstrap/css/bootstrap.min.css')
 		// Custom CSS
 		link(rel='stylesheet', href='/css/clean-blog.min.css')
+		link(rel='stylesheet', href='/css/custom.css')
 		// Custom Fonts
 		link(rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css')
 		link(rel='stylesheet' href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic')
@@ -71,9 +73,13 @@ html
 						p(class="copyright text-muted") Copyright &copy; Your Website 2015
 
 		// jquery
-		script(src="/js/jquery.js")
+		script(src="/js/jquery/jquery.min.js")
+		script(src="/js/jquery/jquery.validate.min.js")
 
 		// Bootstrap Core Javascript
 		script(src="/css/bootstrap/js/bootstrap.min.js")
+		
+		// Custom Javascripts
+		script(src="/js/#{jsToLoad}")
 
 

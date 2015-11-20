@@ -34,14 +34,14 @@ exports.post = function(req, res, next) {
   	if (!req.body.title || !req.body.slug || !req.body.text) {
   		return res.render('post', {error: 'Fill title, slug, and text'});
   	}
-  	var post = {
+  	var article = {
   		title : req.body.title,
   		slug : req.body.slug,
   		text : req.body.text,
 		author: req.session.user,
 		published: false
   	};
-  	req.models.Post.create(post, function(error, postResponse) {
+  	req.models.Post.create(article, function(error, postResponse) {
   		if (error) return next(error);
   		res.render('post', {success: 'Your article has been added succesfully, go to manage page to publish it'});
   	});
