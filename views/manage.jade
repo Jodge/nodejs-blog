@@ -1,7 +1,8 @@
 extends layout
-
+block vars
+	- var jsToLoad = 'manage/manage.js'
 block content
-	div.row
+	div.row.manage
 		if (posts.length === 0)
 			p
 				| Nothing to display. Add a new 
@@ -24,4 +25,3 @@ block content
 								button.btn.btn-default.btn-sm.publish(type="button")
 									span.glyphicon(class=(post.published)?"glyphicon-pause":"glyphicon-play", title=(post.published)?"Unpublish":"Publish")
 							td= post.title
-	script(type="text/javascript", src="/js/manage.js")

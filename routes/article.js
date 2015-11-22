@@ -19,8 +19,49 @@ exports.show = function(req, res, next) {
  	});
  };
 
+ /*
+  * POST article API
+  */
+exports.add = function(req, res, next) {
+  if (!req.body.article) return next(new Error('No article payload.'));
+  var article = req.body.article;
+  article.published = false;
+  req.models.Post.create(article, function(error, postResponse) {
+    if (error) return next(error);
+    res.send(postResponse);
+  });
+};
+
+/*
+ * PUT article API
+*/
+exports.edit = function(req, res, next) {
+  if (!req.params.id) return next(new Error('No article ID.'));
+  req.models.Post.findById(req.params.id, function(error, post) {
+    if (error) return next(error);
+    post.update({$set : req.body.article}, function(error, count, raw) {
+      if (error) return next(error);
+      res.send({affectedCount: count});
+    });
+  });
+};
+
+/*
+ * DELETE article API
+ */
+ exports.delete = function(req, res, next) {
+   if (!req.params.id) return next(new Error('No article ID.'));
+   req.models.Post.findById(req.params.id, function(error, post) {
+    if (error) return next(error);
+      if (!post) return next(new Error('post not found'));
+      post.remove(function(error, doc) {
+        res.send(doc);
+      });
+    });
+ };
+
   /*
-  * POST article POST page
+  * GET article POST page
   */
 exports.post = function(req, res, next) {
 	if (!req.body.title)

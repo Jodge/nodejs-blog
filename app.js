@@ -70,6 +70,13 @@ app.get('/login', routes.user.login);
 app.post('/login', routes.user.authenticate);
 app.get('/logout', routes.user.logout);
 
+// REST API routes
+app.all('/api', authorize);
+app.get('/api/articles', routes.article.list);
+app.post('/api/articles', routes.article.add);
+app.put('/api/articles/:id', routes.article.edit);
+app.delete('/api/articles/:id', routes.article.delete);
+
 app.all('*', function(req, res) {
 	res.sendStatus(404);
 });
