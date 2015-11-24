@@ -37,3 +37,29 @@
   		res.redirect('/manage');
   	})
   };
+  
+  /*
+   * GET user registration 
+   */
+  exports.register = function(req, res, next) {
+	res.render('register');
+  }
+  
+  /*
+   * POST user registration
+   */
+  exports.registerUser = function(req, res, next) {
+	if (!req.body.fullname || !req.body.email || !req.body.password) {
+  		return res.render('register', {error: 'Fill name, email, and password'});
+  	}
+	var user = {
+		fullname : req.body.fullname,
+		email : req.body.email,
+		password : req.body.password,
+		admin : false
+	};
+	req.models.User.create(user, function(error, postResponse) {
+		if (error) return next(error);
+		res.render('register', {success : 'Successfully registered, Login to start posting'});
+	});
+  };

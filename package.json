@@ -5,8 +5,12 @@
 	"scripts" : {
 		"start" : "node app.js"
 	},
-	"author" : "George Otieno",
-	"license" : "BSD-2-Clause",
+	"repository" : {
+		"type" : "git",
+		"url" : "git@github.com:jodge/nodejs-blog.git"
+	}
+	"author" : "George Otieno <georgeorti@gmail.com>",
+	"license" : "MIT",
 	"dependencies" : {
 		"express" : "4.13.3",
 		"jade" : "1.11.0",
@@ -17,6 +21,7 @@
     	"method-override" : "2.3.5",
     	"mongoose" : "4.2.5",
     	"express-session" : "1.12.1",
-    	"cookie-parser" : "1.4.0"
+    	"cookie-parser" : "1.4.0",
+		"passport" : "0.3.2"
 	}
 }

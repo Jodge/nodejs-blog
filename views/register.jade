@@ -1,0 +1,25 @@
+extends layout
+block vars
+	- var jsToLoad = 'register.js'
+block content
+	div.row
+		div(class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1")
+			div.text-danger= error
+			div.text-success= success
+			h2(class="subheading") Register
+			form(action="/register", method="post", role="form" id="register-form")
+				div.form-group
+					label(for="fullname") Full Name
+					input#fullname.form-control(name="fullname", type="text", required="required", placeholder="Name")
+				div.form-group
+					label(for="email") Email
+					input#email.form-control(name="email", type="text", required="required", placeholder="Email")
+				div.form-group
+					label(for="password") Password
+					input#password.form-control(name="password", type="password", required="required", placeholder="******")
+					span.help-block enter at least 6 characters
+				div.form-group
+					label(for="password_confirm") Confirm Password
+					input#password_confirm.form-control(name="password_confirm", type="password", required="required", placeholder="******")
+				p
+					button.btn.btn-primary(type="submit") Register

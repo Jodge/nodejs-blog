@@ -68,6 +68,8 @@ app.post('/post', authorize, routes.article.postArticle);
 app.get('/manage', authorize, routes.article.manage)
 app.get('/login', routes.user.login);
 app.post('/login', routes.user.authenticate);
+app.get('/register', routes.user.register);
+app.post('/register', routes.user.registerUser);
 app.get('/logout', routes.user.logout);
 
 // REST API routes
