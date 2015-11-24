@@ -92,8 +92,15 @@ exports.post = function(req, res, next) {
    * GET manage page
    */
   exports.manage = function(req, res, next) {
-    req.models.Post.find({"author" : req.session.user}, null, {sort: {_id:-1}}, function(error, posts)  {
-      if (error) return next(error);
-      res.render('manage', {posts : posts});
-    });
+    if (req.session.admin) {
+		req.models.Post.find({}, null, {sort: {_id:-1}}, function(error, posts)  {
+		if (error) return next(error);
+		res.render('manage', {posts : posts});
+		});
+	} else {
+		req.models.Post.find({"author" : req.session.user}, null, {sort: {_id:-1}}, function(error, posts)  {
+		if (error) return next(error);
+		res.render('manage', {posts : posts});
+		});
+	}
   };
