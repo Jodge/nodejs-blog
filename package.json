@@ -14,7 +14,6 @@
 	"dependencies" : {
 		"express" : "4.13.3",
 		"jade" : "1.11.0",
-		"stylus" : "0.52.4",
 		"errorhandler" : "1.4.2",
     	"body-parser": "1.0.2",
     	"morgan" : "1.6.1",
@@ -22,6 +21,8 @@
     	"mongoose" : "4.2.5",
     	"express-session" : "1.12.1",
     	"cookie-parser" : "1.4.0",
-    	"bcrypt-nodejs" : "0.0.3"
+    	"bcrypt-nodejs" : "0.0.3",
+    	"passport" : "0.3.2",
+    	"passport-local" : "1.0.0"
 	}
 }

@@ -1,15 +1,5 @@
 var bCrypt = require('bcrypt-nodejs');
 
-// Generates hash using bCrypt
-var createHash = function(password) {
-  return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
-}
-
-// validate password
-var isValidPassword = function(user, password) {
-  return bCrypt.compareSync(password, user.password);
-}
-
 /*
  * Get user listing
  */
@@ -70,7 +60,7 @@ var isValidPassword = function(user, password) {
   		return res.render('register', {error: 'Fill name, email, and password'});
   	}
 	var user = {
-		fullname : req.body.fullname,
+		fullname : capitalizeEachWord(req.body.fullname),
 		email : req.body.email,
 		password : createHash(req.body.password),
 		admin : false
@@ -80,3 +70,18 @@ var isValidPassword = function(user, password) {
 		res.render('register', {success : 'Successfully registered, Login to start posting'});
 	});
   };
+
+// Generates hash using bCrypt
+var createHash = function(password) {
+  return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
+}
+
+// validate password
+var isValidPassword = function(user, password) {
+  return bCrypt.compareSync(password, user.password);
+}
+
+
+var capitalizeEachWord = function(str) {
+  return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
