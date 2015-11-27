@@ -13,8 +13,7 @@ var logger = require('morgan'),
 	bodyParser = require('body-parser'),
 	methodOverride = require('method-override'),
 	cookieParser = require('cookie-parser'),
-	session = require('express-session'),
-	passport = require('passport');
+	session = require('express-session');
 
 var app = express();
 app.locals.appTitle = 'NodeJS Blog';
@@ -37,8 +36,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(session({secret : '3T67774A-R649-4D44-9735-43E296ZZ980F', resave : true, saveUninitialized : true}));
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(methodOverride());
 app.use(require('stylus').middleware(__dirname + '/public'));
 app.use(express.static(__dirname + '/public'));

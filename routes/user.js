@@ -1,3 +1,15 @@
+var bCrypt = require('bcrypt-nodejs');
+
+// Generates hash using bCrypt
+var createHash = function(password) {
+  return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
+}
+
+// validate password
+var isValidPassword = function(user, password) {
+  return bCrypt.compareSync(password, user.password);
+}
+
 /*
  * Get user listing
  */
@@ -26,17 +38,21 @@
   exports.authenticate = function(req, res, next) {
   	if (!req.body.email || !req.body.password)
   		return res.render('login', {error : 'Enter your email and password'});
-  	req.models.User.findOne({
-  		email : req.body.email,
-  		password : req.body.password
-  	}, function(error, user) {
-  		if (error) return next(error);
-  		if (!user) return res.render('login', {error : 'Incorrect email & password combination'});
-  		req.session.user = user.toObject().fullname;
-		req.session.admin = user.toObject().admin;
-		req.session.logged = true;
-  		res.redirect('/manage');
-  	})
+
+    // check password
+    req.models.User.findOne({
+      email : req.body.email
+    }, function(error, user) {
+      if (error) return next(error);
+      if (!user) return res.render('login', {error : 'Incorrect email & password combination'});
+      if(!isValidPassword(user, req.body.password)) {
+        return res.render('login', {error : 'Incorrect email & password combination'});
+      }
+      req.session.user = user.toObject().fullname;
+      req.session.admin = user.toObject().admin;
+      req.session.logged = true;
+      res.redirect('/manage');
+    });
   };
   
   /*
@@ -56,7 +72,7 @@
 	var user = {
 		fullname : req.body.fullname,
 		email : req.body.email,
-		password : req.body.password,
+		password : createHash(req.body.password),
 		admin : false
 	};
 	req.models.User.create(user, function(error, postResponse) {
