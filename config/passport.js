@@ -1,5 +1,5 @@
 // config/passport.js
-var LocalStrategy = require('passport-local').Strtegy;
+var LocalStrategy = require('passport-local').Strategy;
 
 // load the user model
 var User = require('../models/user');
@@ -30,7 +30,7 @@ module.exports = function(passport) {
 	// ========================================================================
 	// LOCAL LOGIN ============================================================
 	// ========================================================================
-	pasword.use('local-login', new LocalStrategy({
+	passport.use('local-login', new LocalStrategy({
 		// by default, local strategy uses username and password, we will override with email
 		usernameField : 'email',
 		passwordField : 'password',
@@ -99,7 +99,7 @@ module.exports = function(passport) {
 						});
 					}
 
-				}
+				});
 			} else if(!req.user.local.email) {
 				// ...presumably they're trying to connect a local account
                 // BUT let's check if the email used to connect a local account is being used by another user
@@ -126,7 +126,7 @@ module.exports = function(passport) {
 		} else {
 			// user is logged in and already has a local account. Ignore signup. (You should log out before trying to create a new account, user!)
             return done(null, req.user);
-            });
-		})
+            }
+		});
 	}));
 };

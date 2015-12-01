@@ -1,12 +1,14 @@
-exports.article = require('./article');
-exports.user = require('./user');
-/*
-* GET home page
-*/
+// routes/index.js
+var Post = require('../models/post');
 
-exports.index = function(req, res, next) {
-	req.models.Post.find({published : true}, null, {sort: {_id:-1}}, function(error, posts) {
-		if (error) return next(error);
-		res.render('index', {posts : posts})
-	})
+module.exports = function(app, passport) {
+
+	// display list of published articles
+	
+	app.get('/', function(req, res, next) {
+		Post.find({published : true}, null, {sort : {_id : -1}}, function(err, posts) {
+			if (err) return next(err);
+			res.render('index', {posts : posts})
+		})
+	});
 };

@@ -8,12 +8,14 @@ var port = process.env.PORT || 3000;
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash = require('connect-flash');
+var path = require('path');
 
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var errorHandler = require('errorhandler');
+var methodOverride = require('method-override');
 
 var configDB = require('./config/database');
 
@@ -39,6 +41,11 @@ app.use(session({secret : '3T67774A-R649-4D44-9735-43E296ZZ980F', resave : true,
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
+
+// development only
+if ('development' == app.get('env')) {
+	app.use(errorHandler());
+}
 
 // routes =======================================================================
 require('./routes')(app, passport); // load our routes and pass in our app and fully configured passport
