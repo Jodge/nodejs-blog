@@ -51,7 +51,7 @@ var update = function(event) {
 };
 
 $(document).ready(function() {
-	var $element = $('.manage tbody');
+	var $element = $('.publish tbody');
 	$element.on('click', 'button.remove', remove);
 	$element.on('click', 'button', update);
 })

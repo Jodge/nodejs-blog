@@ -17,12 +17,12 @@ module.exports = function(passport) {
 
 	// used to serialize the user for the session
 	passport.serializeUser(function(user, done) {
-		done(null, user._id);
+		done(null, user.id);
 	});
 
 	// use to deserialize the user
 	passport.deserializeUser(function(id, done) {
-		User.findById(_id, function(err, user) {
+		User.findById(id, function(err, user) {
 			done(err, user);
 		});
 	});
@@ -89,6 +89,7 @@ module.exports = function(passport) {
 						var newUser = new User();
 
 						newUser.local.email = email;
+						newUser.local.fullname = req.body.fullname;
 						newUser.local.password = newUser.generateHash(password);
 
 						newUser.save(function(err) {
