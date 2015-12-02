@@ -4,8 +4,8 @@ block vars
 block content
 	div.row
 		div(class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1")
-			div.text-danger= error
-			div.text-success= success
+			if (message.length > 0) 
+				div.alert.alert-danger message
 			h2(class="subheading") Register
 			form(action="/signup", method="post", role="form" id="register-form")
 				div.form-group

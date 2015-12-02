@@ -50,7 +50,7 @@ module.exports = function(app, passport) {
 
 	// publish page
 
-	app.get('/publish', function(req, res, next) {
+	app.get('/publish', isLoggedIn, function(req, res, next) {
 		Post.find({"author" : "George Otieno"}, null, {sort: {_id:-1}}, function(error, posts)  {
 		if (error) return next(error);
 		res.render('publish', {posts : posts});
@@ -67,6 +67,17 @@ module.exports = function(app, passport) {
 	app.post('/signup', passport.authenticate('local-signup', {
 		successRedirect : '/publish', // temporarily redirect to publish page
 		failureRedirect : '/signup', // redirect back to signup page if there is an error
+		failureFlash : true // allow flash messages
+	}));
+
+	// Login
+	app.get('/login', function(req, res, next) {
+		res.render('login', { message: req.flash('loginMessage') });
+	});
+
+	app.post('/login', passport.authenticate('local-login', {
+		successRedirect : '/publish', // temporarily redirect to publish page
+		failureRedirect : '/login', // redirect back to login page if there is an error
 		failureFlash : true // allow flash messages
 	}));
 
@@ -109,6 +120,13 @@ module.exports = function(app, passport) {
   			res.send(postResponse);
   		});
 	});
+
+	// route middleware to ensure user is logged in
+	function isLoggedIn(req, res, next) {
+		if (req.isAuthenticated())
+			return next();
+		res.redirect('/');
+	}
 
 
 };
