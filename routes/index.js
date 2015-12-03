@@ -3,7 +3,7 @@ var Post = require('../models/post');
 
 module.exports = function(app, passport) {
 
-	// ARTICLE ROUTES ================================================================
+	// ARTICLE ================================================================
 
 	// display list of published articles
 	
@@ -25,12 +25,12 @@ module.exports = function(app, passport) {
 
 	// post an article
 
-	app.get('/post', function(req, res, next) {
+	app.get('/post', isLoggedIn, function(req, res, next) {
 		if  (!req.body.title)
 			res.render('post');
 	});
 
-	app.post('/post', function(req, res, next) {
+	app.post('/post', isLoggedIn, function(req, res, next) {
 		if (!req.body.title || !req.body.slug || !req.body.text) {
   			return res.render('post', {error: 'Fill title, slug, and text'});
   		}
@@ -38,7 +38,7 @@ module.exports = function(app, passport) {
   			title : req.body.title,
   			slug : req.body.slug,
   			text : req.body.text,
-			author: "George Otieno",
+			author: req.user.local.fullname,
 			published: false
   		};
 
@@ -51,7 +51,7 @@ module.exports = function(app, passport) {
 	// publish page
 
 	app.get('/publish', isLoggedIn, function(req, res, next) {
-		Post.find({"author" : "George Otieno"}, null, {sort: {_id:-1}}, function(error, posts)  {
+		Post.find({"author" : req.user.local.fullname}, null, {sort: {_id:-1}}, function(error, posts)  {
 		if (error) return next(error);
 		res.render('publish', {posts : posts});
 		});
@@ -109,7 +109,7 @@ module.exports = function(app, passport) {
 		});
 	});
 
-	// add article
+	// post article
 
 	app.post('/api/articles', function(req, res, next) {
 		if (!req.body.article) return next(new Error('No article payload.'));
@@ -120,6 +120,17 @@ module.exports = function(app, passport) {
   			res.send(postResponse);
   		});
 	});
+
+	// get articles
+
+	app.get('/api/articles', function(req, res, next) {
+		Post.list(function(err, posts) {
+			if (err) return next(err);
+			res.send({posts:posts});
+ 		});
+	});
+
+	// CUSTOM FUNCTIONS ======================================================================
 
 	// route middleware to ensure user is logged in
 	function isLoggedIn(req, res, next) {
