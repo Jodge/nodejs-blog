@@ -61,7 +61,7 @@ module.exports = function(app, passport) {
 
 	// Sign Up
 	app.get('/signup', function(req, res, next) {
-		res.render('register', { message: req.flash('signupMessage') });
+		res.render('signup', { message: req.flash('signupMessage') });
 	});
 
 	app.post('/signup', passport.authenticate('local-signup', {

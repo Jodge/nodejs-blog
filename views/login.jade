@@ -4,7 +4,7 @@ block content
 	div.row
 		div(class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1")
 			if (message.length > 0) 
-				div.alert.alert-danger message
+				div.alert.alert-danger= message
 			h2(class="subheading") Login
 			form(action="/login", method="post", role="form")
 				div.form-group
