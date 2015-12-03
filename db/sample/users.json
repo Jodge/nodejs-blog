@@ -1,6 +1,8 @@
 [{
-	"email" : "georgeorti@gmail.com",
-	"fullname" : "George Otieno",
-	"admin" : true,
-	"password" : "p@$$w0rd"
+	"local" : {
+		"email" : "nodejsblog@mydomain.com",
+		"fullname" : "Admin",
+		"admin" : true,
+		"password" : "password1"
+	}
 }]

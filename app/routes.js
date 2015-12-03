@@ -1,5 +1,5 @@
 // routes/index.js
-var Post = require('../models/post');
+var Post = require('./models/post');
 
 module.exports = function(app, passport) {
 
@@ -138,6 +138,4 @@ module.exports = function(app, passport) {
 			return next();
 		res.redirect('/');
 	}
-
-
 };

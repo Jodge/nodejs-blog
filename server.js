@@ -48,7 +48,7 @@ if ('development' == app.get('env')) {
 }
 
 // routes =======================================================================
-require('./routes')(app, passport); // load our routes and pass in our app and fully configured passport
+require('./app/routes')(app, passport); // load our routes and pass in our app and fully configured passport
 
 // launch ======================================================================
 app.listen(port);
