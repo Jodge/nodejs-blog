@@ -1,5 +1,6 @@
 // routes/index.js
 var Post = require('./models/post');
+var crypto = require('crypto');
 
 module.exports = function(app, passport) {
 
@@ -75,11 +76,23 @@ module.exports = function(app, passport) {
 		res.render('login', { message: req.flash('loginMessage') });
 	});
 
+	// Logout
+	app.get('/logout', function(req, res, next) {
+		req.logout();
+		res.redirect('/');
+	});
+
 	app.post('/login', passport.authenticate('local-login', {
-		successRedirect : '/publish', // temporarily redirect to publish page
+		successRedirect : '/profile', // temporarily redirect to publish page
 		failureRedirect : '/login', // redirect back to login page if there is an error
 		failureFlash : true // allow flash messages
 	}));
+
+	// USER PROFILE =============================================================================
+
+	app.get('/profile', isLoggedIn, function(req, res, next) {
+		res.render('profile', {userImage : getAvatarUserImage(req.user.local.email), user : req.user.local})
+	});
 
 	// REST API ROUTES ==========================================================================
 
@@ -136,6 +149,13 @@ module.exports = function(app, passport) {
 	function isLoggedIn(req, res, next) {
 		if (req.isAuthenticated())
 			return next();
-		res.redirect('/');
+		res.redirect('/login');
+	}
+
+	// get user image from gravatar
+	function getAvatarUserImage(email) {
+		var hash = crypto.createHash('md5').update(email).digest('hex');
+		var gravatarBaseUrl = 'https://secure.gravatar.com/avatar/';
+		return gravatarBaseUrl + hash;
 	}
 };
