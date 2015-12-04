@@ -66,7 +66,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.post('/signup', passport.authenticate('local-signup', {
-		successRedirect : '/publish', // temporarily redirect to publish page
+		successRedirect : '/profile', // temporarily redirect to publish page
 		failureRedirect : '/signup', // redirect back to signup page if there is an error
 		failureFlash : true // allow flash messages
 	}));
