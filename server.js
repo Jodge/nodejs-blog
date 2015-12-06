@@ -53,6 +53,7 @@ require('./app/routes')(app, passport); // load our routes and pass in our app a
 // launch ======================================================================
 app.listen(port);
 console.log('Express server listening to port ' + port);
+console.log('Node Environment: ' + app.get('env'));
 
 
 
