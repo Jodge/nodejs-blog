@@ -2,3 +2,7 @@ label.error {
 	font-size : 14px;
 	color : #d9534f;
 }
+a.signup {
+	text-decoration: none;
+	color: #337ab7;
+}

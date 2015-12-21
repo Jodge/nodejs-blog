@@ -1,8 +1,0 @@
-[{
-	"local" : {
-		"email" : "nodejsblog@mydomain.com",
-		"fullname" : "Admin",
-		"admin" : true,
-		"password" : "password1"
-	}
-}]

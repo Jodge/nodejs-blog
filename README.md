@@ -16,13 +16,3 @@ N/B : For linux use **sudo** if you experience permission issues
 Run the app
 
 > node server.js
-
-To add sample users and posts data, navigate to the db directory
-
-linux plaform execute
-
-**$sh seeds.sh**
-
-windows platform execute
-
-> seeds.bat
