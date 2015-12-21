@@ -33,6 +33,12 @@ html
 					ul(class="nav navbar-nav navbar-right")
 						li
 							a(href="/") Home
+						if (user) 
+							li
+								a(href="/logout") Logout
+						else 
+							li
+								a(href="/login") Login
 		// page header
 		// Set your background image for this header on the line below.
 		header(class="intro-header" style="background-image: url('/img/home-bg.jpg')")
