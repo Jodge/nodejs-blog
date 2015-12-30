@@ -91,7 +91,7 @@ module.exports = function(app, passport) {
 	// USER PROFILE =============================================================================
 
 	app.get('/profile', isLoggedIn, function(req, res, next) {
-		res.render('profile', {userImage : getAvatarUserImage(req.user.local.email), user : req.user.local})
+		res.render('profile', {userImage : getAvatarUserImage(req.user.local.email)})
 	});
 
 	// REST API ROUTES ==========================================================================

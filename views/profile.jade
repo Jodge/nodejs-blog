@@ -1,5 +1,6 @@
 extend layout
-
+block vars
+	- var jsToLoad = 'profile.js'
 block content
 	div(class="row")
 		div(class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1")
@@ -11,5 +12,5 @@ block content
 						i=user.email
 				div.col-md-6
 					p
-						img(src="#{userImage}" alt="/img/icons/user-icon.png")
+						img(class="backup_picture" src="#{userImage}")
 					a.btn.btn-info(href="/publish") View Your Posts
