@@ -1,5 +1,6 @@
 // config/passport.js
 var LocalStrategy = require('passport-local').Strategy;
+var TwitterStrategy = require('passport-twitter').Strategy;
 
 // load the user model
 var User = require('../app/models/user');
@@ -128,6 +129,46 @@ module.exports = function(passport) {
 			// user is logged in and already has a local account. Ignore signup. (You should log out before trying to create a new account, user!)
             return done(null, req.user);
             }
+		});
+	}));
+	
+	// ========================================================================
+	// TWITTER ================================================================
+	// ========================================================================
+	passport.use(new TwitterStrategy({
+
+		consumerKey : configAuth.twitterAuth.consumerKey,
+		consumerSecret : configAuth.twitterAuth.consumerSecret,
+		callbackURL : configAuth.twitterAuth.callbackURL
+	},
+	function(token, tokenSecter, profile, done) {
+		// make the code asynchronous
+		// User.findOne only fires after we have all our data back from twitter
+		process.nextTick(function() {
+			User.findOne({ 'twitter_id' : profile.id}, function(err, user) {
+				if (err)
+					return done(err)
+				// if user is found, log them in
+				if (user) {
+					return done(null, user);
+				} else {
+					// create a new user
+					var newUser = new User();
+
+					// set data
+					newUser.twitter.id = profile.id;
+					newUser.twitter.token  = token;
+					newUser.twitter.username = profile.username;
+					newUser.twitter.displayName = profile.displayName;
+
+					// save user
+					newUser.save(function(err) {
+						if (err)
+							throw err;
+						return done(null, newUser);
+					});
+				}
+			});
 		});
 	}));
 };

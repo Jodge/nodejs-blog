@@ -7,7 +7,7 @@ html
 		meta(name="viewport", content="width=device-width, initial-scale=1")
 		meta(name="description", content="NodeJs blog inspired by Nodejs and CleanBlog Theme")
 		meta(name="author", content="George Otieno")
-		title=appTitle
+		title Node.js Blog
 		// Bootstrap Core CSS
 		link(rel='stylesheet', href='/css/bootstrap/css/bootstrap.min.css')
 		// Custom CSS
@@ -80,7 +80,7 @@ html
 									span(class="fa-stack fa-lg")
 										i(class="fa fa-circle fa-stack-2x")
 										i(class="fa fa-github fa-stack-1x fa-inverse")
-						p(class="copyright text-muted") Copyright &copy; Your Website 2015
+						p(class="copyright text-muted") Copyright &copy; Your Website #{moment(Date.now()).format('YYYY')}
 
 		// jquery
 		script(src="/js/jquery/jquery.min.js")

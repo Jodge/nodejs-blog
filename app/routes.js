@@ -76,6 +76,15 @@ module.exports = function(app, passport) {
 		res.render('login', { message: req.flash('loginMessage') });
 	});
 
+	// twitter authentication and login
+	app.get('/auth/twitter', passport.authenticate('twitter'));
+
+	// handle the callback after twitter has authenticated the user
+	app.get('/auth/twitter/callback', passport.authenticate('twitter', {
+		successRedirect: '/profile',
+		failureRedirect: '/signup'
+	}));
+
 	// Logout
 	app.get('/logout', function(req, res, next) {
 		req.logout();

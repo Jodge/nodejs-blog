@@ -48,6 +48,9 @@ app.use(function(req,res,next){
     next();
 });
 
+// setting app locals
+app.locals.moment = require('moment');
+
 // development only
 if ('development' == app.get('env')) {
 	app.use(errorHandler());
