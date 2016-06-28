@@ -3,25 +3,19 @@ block vars
 	- var jsToLoad = 'publish.js'
 block content
 	div.row.publish
-		if (posts.length === 0)
-			p
-				| Nothing to display. Add a new 
-				a(href="post") post
-				|.
-		else
-
-			table.table.table-stripped
-				thead
-					tr
-						th(colspan="2") Actions
-						th Post Title
-				tbody
-					each post, index in posts
-						tr(data-id="#{post._id}", class=(!post.published)?'unpublished':'')
-							td.action
-								button.btn.btn-danger.btn-sm.remove(type="button")
-									span.glyphicon.glyphicon-remove(title="Remove")
-							td.action
-								button.btn.btn-default.btn-sm.publish(type="button")
-									span.glyphicon(class=(post.published)?"glyphicon-pause":"glyphicon-play", title=(post.published)?"Unpublish":"Publish")
-							td= post.title
+		a(class="btn btn-info" href="post") Add a new post
+		table.table.table-stripped
+			thead
+				tr
+					th(colspan="2") Actions
+					th Post Title
+			tbody
+				each post, index in posts
+					tr(data-id="#{post._id}", class=(!post.published)?'unpublished':'')
+						td.action
+							button.btn.btn-danger.btn-sm.remove(type="button")
+								span.glyphicon.glyphicon-remove(title="Remove")
+						td.action
+							button.btn.btn-default.btn-sm.publish(type="button")
+								span.glyphicon(class=(post.published)?"glyphicon-pause":"glyphicon-play", title=(post.published)?"Unpublish":"Publish")
+						td= post.title

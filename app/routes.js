@@ -45,7 +45,7 @@ module.exports = function(app, passport) {
 
   		Post.create(article, function(err, postResponse) {
   			if (err) return next(err)
-  			res.render('post', {success: 'Your article has been added succesfully, go to manage page to publish it'});
+  			res.render('post', {success: 'Your article has been added succesfully, go to publish page to publish it'});
   		});
 	});
 
@@ -100,7 +100,8 @@ module.exports = function(app, passport) {
 	// USER PROFILE =============================================================================
 
 	app.get('/profile', isLoggedIn, function(req, res, next) {
-		res.render('profile', {userImage : getAvatarUserImage(req.user.local.email)})
+		//res.render('profile', {userImage : getAvatarUserImage(req.user.local.email)})
+		res.render('profile')
 	});
 
 	// REST API ROUTES ==========================================================================

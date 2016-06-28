@@ -141,25 +141,25 @@ module.exports = function(passport) {
 		consumerSecret : configAuth.twitterAuth.consumerSecret,
 		callbackURL : configAuth.twitterAuth.callbackURL
 	},
-	function(token, tokenSecter, profile, done) {
+	function(token, tokenSecret, profile, done) {
 		// make the code asynchronous
 		// User.findOne only fires after we have all our data back from twitter
 		process.nextTick(function() {
-			User.findOne({ 'twitter_id' : profile.id}, function(err, user) {
+			User.findOne({ 'local.twitter_id' : profile.id}, function(err, user) {
 				if (err)
 					return done(err)
 				// if user is found, log them in
 				if (user) {
+					console.log("User Found heeeeeeeeeeeeeee");
 					return done(null, user);
 				} else {
 					// create a new user
 					var newUser = new User();
 
 					// set data
-					newUser.twitter.id = profile.id;
-					newUser.twitter.token  = token;
-					newUser.twitter.username = profile.username;
-					newUser.twitter.displayName = profile.displayName;
+					newUser.local.twitter_id = profile.id;
+					newUser.local.twitter_username = profile.username;
+					newUser.local.fullname = profile.displayName;
 
 					// save user
 					newUser.save(function(err) {

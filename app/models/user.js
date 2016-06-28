@@ -7,26 +7,14 @@ var userSchema = mongoose.Schema({
 	
 	local : {
 		fullname : {
-		type : String,
-		required : true,
-		validate : [
-			function(value) {
-					return value.length>=6 && value.length<=30
-			},
-			'Name should not be between 6 and 30 characters']		
+		type : String,		
 		},	
 		email: {
     		type: String,
-    		required: true,
-    		set: function(value) {return value.trim().toLowerCase()},
-    		validate: [
-      			function(email) {
-        			return (email.match(/[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/i) != null)},
-      'Invalid email']
+    		set: function(value) {return value.trim().toLowerCase()}
 		},
 		password : {
-			type : String,
-			required : true
+			type : String
 		},
 		admin : {
 			type : Boolean,
@@ -36,6 +24,12 @@ var userSchema = mongoose.Schema({
 			type : Date,
 			required : true,
 			default : Date.now
+		},
+		twitter_id : {
+			type: Number
+		},
+		twitter_username : {
+			type: String
 		}
 	}
 });
