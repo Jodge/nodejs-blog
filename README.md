@@ -9,12 +9,12 @@ REQUIREMENTS
 
 To Run this app, first install the module dependencies. 
 
-** $npm install**
+> $npm install
 
-N/B : For linux use **sudo** if you experience permission issues 
+N/B : For linux use ** sudo ** if you experience permission issues 
 
 For SignIn and Singup using Twitter. Add twitterAuth credentials on ** config/auth.js **
 
 Run the app
 
-** node server.js **
+> node server.js 
