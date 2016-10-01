@@ -4,8 +4,8 @@
 
 REQUIREMENTS
 
-1. NodeJs https://nodejs.org/en/download/
-2. MongoDB https://www.mongodb.org/downloads
+1. [NodeJs](https://nodejs.org/en/download)
+2. [MongoDB](https://www.mongodb.org/downloads)
 
 * To Run this app, first install the module dependencies. 
   * $npm install
