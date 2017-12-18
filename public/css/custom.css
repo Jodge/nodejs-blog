@@ -6,3 +6,13 @@ a.signup {
 	text-decoration: none;
 	color: #337ab7;
 }
+hr.small {
+	margin: 0 auto;
+}
+@media only screen and (min-width:768px) {
+    .intro-header .site-heading,
+    .intro-header .post-heading,
+    .intro-header .page-heading {
+        padding: 20px 0;
+    }
+}
