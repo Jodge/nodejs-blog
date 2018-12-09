@@ -1,171 +1,195 @@
 // routes/index.js
-var Post = require('./models/post');
-var crypto = require('crypto');
+const Post = require('./models/post');
 
-module.exports = function(app, passport) {
+module.exports = function (app, passport) {
 
-	// ARTICLE ================================================================
+  // ARTICLE ================================================================
 
-	// display list of published articles
-	
-	app.get('/', function(req, res, next) {
-		Post.find({published : true}, null, {sort : {_id : -1}}, function(err, posts) {
-			if (err) return next(err);
-			res.render('index', {posts : posts})
-		})
-	});
+  // display list of published articles
 
-	//  display individual post article
+  app.get('/', function (req, res, next) {
+    Post.find({
+      published: true
+    }, null, {
+      sort: {
+        _id: -1
+      }
+    }, function (err, posts) {
+      if (err) return next(err);
+      res.render('index', {
+        posts: posts
+      })
+    })
+  });
 
-	app.get('/posts/:slug', function(req, res, next) {
-		Post.findOne({slug : req.params.slug}, function(err, posts) {
-			if (err) return next(err)
-				res.render('article', posts);
-		});
-	});
+  //  display individual post article
 
-	// post an article
+  app.get('/posts/:slug', function (req, res, next) {
+    Post.findOne({
+      slug: req.params.slug
+    }, function (err, posts) {
+      if (err) return next(err)
+      res.render('article', posts);
+    });
+  });
 
-	app.get('/post', isLoggedIn, function(req, res, next) {
-		if  (!req.body.title)
-			res.render('post');
-	});
+  // post an article
 
-	app.post('/post', isLoggedIn, function(req, res, next) {
-		if (!req.body.title || !req.body.slug || !req.body.text) {
-  			return res.render('post', {error: 'Fill title, slug, and text'});
-  		}
-  		var article = {
-  			title : req.body.title,
-  			slug : req.body.slug,
-  			text : req.body.text,
-			author: req.user.local.fullname,
-			published: false
-  		};
+  app.get('/post', isLoggedIn, function (req, res) {
+    if (!req.body.title)
+      res.render('post');
+  });
 
-  		Post.create(article, function(err, postResponse) {
-  			if (err) return next(err)
-  			res.render('post', {success: 'Your article has been added succesfully, go to publish page to publish it'});
-  		});
-	});
+  app.post('/post', isLoggedIn, function (req, res, next) {
+    if (!req.body.title || !req.body.slug || !req.body.text) {
+      return res.render('post', {
+        error: 'Fill title, slug, and text'
+      });
+    }
+    const article = {
+      title: req.body.title,
+      slug: req.body.slug,
+      text: req.body.text,
+      author: req.user.local.fullname,
+      published: false
+    };
 
-	// publish page
+    Post.create(article, function (err, postResponse) {
+      if (err) return next(err)
+      res.render('post', {
+        success: 'Your article has been added succesfully, go to publish page to publish it'
+      });
+    });
+  });
 
-	app.get('/publish', isLoggedIn, function(req, res, next) {
-		Post.find({"author" : req.user.local.fullname}, null, {sort: {_id:-1}}, function(error, posts)  {
-		if (error) return next(error);
-		res.render('publish', {posts : posts});
-		});
-	});
+  // publish page
 
-	// AUTHENTICATION ===========================================================================
+  app.get('/publish', isLoggedIn, function (req, res, next) {
+    Post.find({
+      "author": req.user.local.fullname
+    }, null, {
+      sort: {
+        _id: -1
+      }
+    }, function (error, posts) {
+      if (error) return next(error);
+      res.render('publish', {
+        posts: posts
+      });
+    });
+  });
 
-	// Sign Up
-	app.get('/signup', function(req, res, next) {
-		res.render('signup', { message: req.flash('signupMessage') });
-	});
+  // AUTHENTICATION ===========================================================================
 
-	app.post('/signup', passport.authenticate('local-signup', {
-		successRedirect : '/profile', // temporarily redirect to publish page
-		failureRedirect : '/signup', // redirect back to signup page if there is an error
-		failureFlash : true // allow flash messages
-	}));
+  // Sign Up
+  app.get('/signup', function (req, res) {
+    res.render('signup', {
+      message: req.flash('signupMessage')
+    });
+  });
 
-	// Login
-	app.get('/login', function(req, res, next) {
-		res.render('login', { message: req.flash('loginMessage') });
-	});
+  app.post('/signup', passport.authenticate('local-signup', {
+    successRedirect: '/profile', // temporarily redirect to publish page
+    failureRedirect: '/signup', // redirect back to signup page if there is an error
+    failureFlash: true // allow flash messages
+  }));
 
-	// twitter authentication and login
-	app.get('/auth/twitter', passport.authenticate('twitter'));
+  // Login
+  app.get('/login', function (req, res) {
+    res.render('login', {
+      message: req.flash('loginMessage')
+    });
+  });
 
-	// handle the callback after twitter has authenticated the user
-	app.get('/auth/twitter/callback', passport.authenticate('twitter', {
-		successRedirect: '/profile',
-		failureRedirect: '/signup'
-	}));
+  // twitter authentication and login
+  app.get('/auth/twitter', passport.authenticate('twitter'));
 
-	// Logout
-	app.get('/logout', function(req, res, next) {
-		req.logout();
-		res.redirect('/');
-	});
+  // handle the callback after twitter has authenticated the user
+  app.get('/auth/twitter/callback', passport.authenticate('twitter', {
+    successRedirect: '/profile',
+    failureRedirect: '/signup'
+  }));
 
-	app.post('/login', passport.authenticate('local-login', {
-		successRedirect : '/profile', // temporarily redirect to publish page
-		failureRedirect : '/login', // redirect back to login page if there is an error
-		failureFlash : true // allow flash messages
-	}));
+  // Logout
+  app.get('/logout', function (req, res) {
+    req.logout();
+    res.redirect('/');
+  });
 
-	// USER PROFILE =============================================================================
+  app.post('/login', passport.authenticate('local-login', {
+    successRedirect: '/profile', // temporarily redirect to publish page
+    failureRedirect: '/login', // redirect back to login page if there is an error
+    failureFlash: true // allow flash messages
+  }));
 
-	app.get('/profile', isLoggedIn, function(req, res, next) {
-		//res.render('profile', {userImage : getAvatarUserImage(req.user.local.email)})
-		res.render('profile')
-	});
+  // USER PROFILE =============================================================================
 
-	// REST API ROUTES ==========================================================================
+  app.get('/profile', isLoggedIn, function (req, res) {
+    //res.render('profile', {userImage : getAvatarUserImage(req.user.local.email)})
+    res.render('profile')
+  });
 
-	// pulish or unpublish article
+  // REST API ROUTES ==========================================================================
 
-	app.put('/api/articles/:id', function(req, res, next) {
-		if (!req.params.id) return next(new Error('No article ID.'));
-		Post.findById(req.params.id, function(err, post) {
-			if (err) return next(err);
-			post.update({$set : req.body.article}, function(err, count, raw) {
-      			if (err) return next(err);
-      			res.send({affectedCount: count});
-    		});
-		});
-	});
+  // pulish or unpublish article
 
-	// delete article
+  app.put('/api/articles/:id', function (req, res, next) {
+    if (!req.params.id) return next(new Error('No article ID.'));
+    Post.findById(req.params.id, function (err, post) {
+      if (err) return next(err);
+      post.update({
+        $set: req.body.article
+      }, function (err, count, raw) {
+        if (err) return next(err);
+        res.send({
+          affectedCount: count
+        });
+      });
+    });
+  });
 
-	app.delete('/api/articles/:id', function(req, res, next) {
-		if (!req.params.id) return next(new Error('No article ID.'));
-		Post.findById(req.params.id, function(err, post) {
-			if (err) return next(err);
-			if (!post) return next(new Error('post not found'));
-			post.remove(function(err, doc) {
-				res.send(doc);
-			});
-		});
-	});
+  // delete article
 
-	// post article
+  app.delete('/api/articles/:id', function (req, res, next) {
+    if (!req.params.id) return next(new Error('No article ID.'));
+    Post.findById(req.params.id, function (err, post) {
+      if (err) return next(err);
+      if (!post) return next(new Error('post not found'));
+      post.remove(function (err, doc) {
+        res.send(doc);
+      });
+    });
+  });
 
-	app.post('/api/articles', function(req, res, next) {
-		if (!req.body.article) return next(new Error('No article payload.'));
-		var article = req.body.article;
-		article.published = false;
-		Post.create(article, function(err, postResponse) {
-  			if (err) return next(err)
-  			res.send(postResponse);
-  		});
-	});
+  // post article
 
-	// get articles
+  app.post('/api/articles', function (req, res, next) {
+    if (!req.body.article) return next(new Error('No article payload.'));
+    const article = req.body.article;
+    article.published = false;
+    Post.create(article, function (err, postResponse) {
+      if (err) return next(err)
+      res.send(postResponse);
+    });
+  });
 
-	app.get('/api/articles', function(req, res, next) {
-		Post.list(function(err, posts) {
-			if (err) return next(err);
-			res.send({posts:posts});
- 		});
-	});
+  // get articles
 
-	// CUSTOM FUNCTIONS ======================================================================
+  app.get('/api/articles', function (req, res, next) {
+    Post.list(function (err, posts) {
+      if (err) return next(err);
+      res.send({
+        posts: posts
+      });
+    });
+  });
 
-	// route middleware to ensure user is logged in
-	function isLoggedIn(req, res, next) {
-		if (req.isAuthenticated())
-			return next();
-		res.redirect('/login');
-	}
+  // CUSTOM FUNCTIONS ======================================================================
 
-	// get user image from gravatar
-	function getAvatarUserImage(email) {
-		var hash = crypto.createHash('md5').update(email).digest('hex');
-		var gravatarBaseUrl = 'https://secure.gravatar.com/avatar/';
-		return gravatarBaseUrl + hash;
-	}
+  // route middleware to ensure user is logged in
+  function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated())
+      return next();
+    res.redirect('/login');
+  }
 };

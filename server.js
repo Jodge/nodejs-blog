@@ -2,22 +2,22 @@
 
 // set up =====================================================================
 // get all the component we require
-var express = require('express');
-var app = express();
-var port = process.env.PORT || 3000;
-var mongoose = require('mongoose');
-var passport = require('passport');
-var flash = require('connect-flash');
-var path = require('path');
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
+const mongoose = require('mongoose');
+const passport = require('passport');
+const flash = require('connect-flash');
+const path = require('path');
 
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var errorHandler = require('errorhandler');
-var methodOverride = require('method-override');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const errorHandler = require('errorhandler');
+const methodOverride = require('method-override');
 
-var configDB = require('./config/database');
+const configDB = require('./config/database');
 
 // configuration ===============================================================
 mongoose.connect(configDB.url); // connect to our databse
@@ -42,18 +42,18 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 app.use(function(req,res,next){
-    if (req.user) {
-    	res.locals.user = req.user.local;
-    }
-    next();
+  if (req.user) {
+    res.locals.user = req.user.local;
+  }
+  next();
 });
 
 // setting app locals
 app.locals.moment = require('moment');
 
 // development only
-if ('development' == app.get('env')) {
-	app.use(errorHandler());
+if ('development' === app.get('env')) {
+  app.use(errorHandler());
 }
 
 // routes =======================================================================
@@ -61,4 +61,3 @@ require('./app/routes')(app, passport); // load our routes and pass in our app a
 
 // launch ======================================================================
 app.listen(port);
-console.log('Express server listening to port ' + port);
