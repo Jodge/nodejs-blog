@@ -17,13 +17,13 @@ module.exports = function(passport) {
   // passport needs ability to serialize and unserialize users out of session
 
   // used to serialize the user for the session
-  passport.serializeUser(function(user, done) {
+  passport.serializeUser((user, done) => {
     done(null, user.id);
   });
 
   // use to deserialize the user
-  passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
+  passport.deserializeUser((id, done) => {
+    User.findById(id, (err, user) => {
       done(err, user);
     });
   });
@@ -36,13 +36,13 @@ module.exports = function(passport) {
     usernameField : 'email',
     passwordField : 'password',
     passReqToCallback : true // allows us to pass in the req from our router (lets us check that a use is logged in or not
-  }, function(req, email, password, done) {
+  }, ((req, email, password, done) => {
     if (email)
       email.toLowerCase(); // use lower-case emails to avoid case-sensitive email matching
 
     // asynchronous
-    process.nextTick(function() {
-      User.findOne({'local.email' : email}, function(err, user) {
+    process.nextTick(() => {
+      User.findOne({'local.email' : email}, (err, user) => {
         // if there are any errors, return the error
         if (err) 
           return done(err);
@@ -59,7 +59,7 @@ module.exports = function(passport) {
           return done(null, user);
       });
     });
-  }));
+  })));
 
   // ========================================================================
   // LOCAL SIGNUP ===========================================================
@@ -69,15 +69,15 @@ module.exports = function(passport) {
     usernameField : 'email',
     passwordField : 'password',
     passReqToCallback : true // allows us to pass in the req from our router (lets us check that a use ris logged in or not
-  }, function(req, email, password, done) {
+  }, ((req, email, password, done) => {
     if (email) 
       email  = email.toLowerCase(); // use lower-case emails to avoid case-sensitive email matching
 
     // asynchronous
-    process.nextTick(function() {
+    process.nextTick(() => {
       if (!req.user) {
 
-        User.findOne({'local.email' : email}, function(err, user) {
+        User.findOne({'local.email' : email}, (err, user) => {
           // if there is any error, return the error
           if (err)
             return done(err);
@@ -93,7 +93,7 @@ module.exports = function(passport) {
             newUser.local.fullname = newUser.capitalize(req.body.fullname);
             newUser.local.password = newUser.generateHash(password);
 
-            newUser.save(function(err) {
+            newUser.save((err) => {
               if (err)
                 return done(err);
 
@@ -105,7 +105,7 @@ module.exports = function(passport) {
       } else if(!req.user.local.email) {
         // ...presumably they're trying to connect a local account
         // BUT let's check if the email used to connect a local account is being used by another user
-        User.findOne({ 'local.email' :  email }, function(err, user) {
+        User.findOne({ 'local.email' :  email }, (err, user) => {
           if (err)
             return done(err);
                     
@@ -116,7 +116,7 @@ module.exports = function(passport) {
             const u = req.user;
             u.local.email = email;
             u.local.password = user.generateHash(password);
-            u.save(function (err) {
+            u.save((err) => {
               if (err)
                 return done(err);
                             
@@ -130,7 +130,7 @@ module.exports = function(passport) {
         return done(null, req.user);
       }
     });
-  }));
+  })));
 	
   // ========================================================================
   // TWITTER ================================================================
@@ -141,11 +141,11 @@ module.exports = function(passport) {
     consumerSecret : configAuth.twitterAuth.consumerSecret,
     callbackURL : configAuth.twitterAuth.callbackURL
   },
-  function(token, tokenSecret, profile, done) {
+  ((token, tokenSecret, profile, done) => {
     // make the code asynchronous
     // User.findOne only fires after we have all our data back from twitter
-    process.nextTick(function() {
-      User.findOne({ 'local.twitter_id' : profile.id}, function(err, user) {
+    process.nextTick(() => {
+      User.findOne({ 'local.twitter_id' : profile.id}, (err, user) => {
         if (err)
           return done(err)
         // if user is found, log them in
@@ -161,7 +161,7 @@ module.exports = function(passport) {
           newUser.local.fullname = profile.displayName;
 
           // save user
-          newUser.save(function(err) {
+          newUser.save((err) => {
             if (err)
               throw err;
             return done(null, newUser);
@@ -169,5 +169,5 @@ module.exports = function(passport) {
         }
       });
     });
-  }));
+  })));
 };

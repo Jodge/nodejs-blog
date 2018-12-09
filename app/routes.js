@@ -7,14 +7,14 @@ module.exports = function (app, passport) {
 
   // display list of published articles
 
-  app.get('/', function (req, res, next) {
+  app.get('/', (req, res, next) => {
     Post.find({
       published: true
     }, null, {
       sort: {
         _id: -1
       }
-    }, function (err, posts) {
+    }, (err, posts) => {
       if (err) return next(err);
       res.render('index', {
         posts: posts
@@ -24,10 +24,10 @@ module.exports = function (app, passport) {
 
   //  display individual post article
 
-  app.get('/posts/:slug', function (req, res, next) {
+  app.get('/posts/:slug', (req, res, next) => {
     Post.findOne({
       slug: req.params.slug
-    }, function (err, posts) {
+    }, (err, posts) => {
       if (err) return next(err)
       res.render('article', posts);
     });
@@ -35,12 +35,12 @@ module.exports = function (app, passport) {
 
   // post an article
 
-  app.get('/post', isLoggedIn, function (req, res) {
+  app.get('/post', isLoggedIn, (req, res) => {
     if (!req.body.title)
       res.render('post');
   });
 
-  app.post('/post', isLoggedIn, function (req, res, next) {
+  app.post('/post', isLoggedIn, (req, res, next) => {
     if (!req.body.title || !req.body.slug || !req.body.text) {
       return res.render('post', {
         error: 'Fill title, slug, and text'
@@ -54,7 +54,7 @@ module.exports = function (app, passport) {
       published: false
     };
 
-    Post.create(article, function (err, postResponse) {
+    Post.create(article, (err, postResponse) => {
       if (err) return next(err)
       res.render('post', {
         success: 'Your article has been added succesfully, go to publish page to publish it'
@@ -64,14 +64,14 @@ module.exports = function (app, passport) {
 
   // publish page
 
-  app.get('/publish', isLoggedIn, function (req, res, next) {
+  app.get('/publish', isLoggedIn, (req, res, next) => {
     Post.find({
       "author": req.user.local.fullname
     }, null, {
       sort: {
         _id: -1
       }
-    }, function (error, posts) {
+    }, (error, posts) => {
       if (error) return next(error);
       res.render('publish', {
         posts: posts
@@ -82,7 +82,7 @@ module.exports = function (app, passport) {
   // AUTHENTICATION ===========================================================================
 
   // Sign Up
-  app.get('/signup', function (req, res) {
+  app.get('/signup', (req, res) => {
     res.render('signup', {
       message: req.flash('signupMessage')
     });
@@ -95,7 +95,7 @@ module.exports = function (app, passport) {
   }));
 
   // Login
-  app.get('/login', function (req, res) {
+  app.get('/login', (req, res) => {
     res.render('login', {
       message: req.flash('loginMessage')
     });
@@ -111,7 +111,7 @@ module.exports = function (app, passport) {
   }));
 
   // Logout
-  app.get('/logout', function (req, res) {
+  app.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/');
   });
@@ -124,7 +124,7 @@ module.exports = function (app, passport) {
 
   // USER PROFILE =============================================================================
 
-  app.get('/profile', isLoggedIn, function (req, res) {
+  app.get('/profile', isLoggedIn, (req, res) => {
     //res.render('profile', {userImage : getAvatarUserImage(req.user.local.email)})
     res.render('profile')
   });
@@ -133,13 +133,13 @@ module.exports = function (app, passport) {
 
   // pulish or unpublish article
 
-  app.put('/api/articles/:id', function (req, res, next) {
+  app.put('/api/articles/:id', (req, res, next) => {
     if (!req.params.id) return next(new Error('No article ID.'));
-    Post.findById(req.params.id, function (err, post) {
+    Post.findById(req.params.id, (err, post) => {
       if (err) return next(err);
       post.update({
         $set: req.body.article
-      }, function (err, count, raw) {
+      }, (err, count, raw) => {
         if (err) return next(err);
         res.send({
           affectedCount: count
@@ -150,12 +150,12 @@ module.exports = function (app, passport) {
 
   // delete article
 
-  app.delete('/api/articles/:id', function (req, res, next) {
+  app.delete('/api/articles/:id', (req, res, next) => {
     if (!req.params.id) return next(new Error('No article ID.'));
-    Post.findById(req.params.id, function (err, post) {
+    Post.findById(req.params.id, (err, post) => {
       if (err) return next(err);
       if (!post) return next(new Error('post not found'));
-      post.remove(function (err, doc) {
+      post.remove((err, doc) => {
         res.send(doc);
       });
     });
@@ -163,11 +163,11 @@ module.exports = function (app, passport) {
 
   // post article
 
-  app.post('/api/articles', function (req, res, next) {
+  app.post('/api/articles', (req, res, next) => {
     if (!req.body.article) return next(new Error('No article payload.'));
     const article = req.body.article;
     article.published = false;
-    Post.create(article, function (err, postResponse) {
+    Post.create(article, (err, postResponse) => {
       if (err) return next(err)
       res.send(postResponse);
     });
@@ -175,8 +175,8 @@ module.exports = function (app, passport) {
 
   // get articles
 
-  app.get('/api/articles', function (req, res, next) {
-    Post.list(function (err, posts) {
+  app.get('/api/articles', (req, res, next) => {
+    Post.list((err, posts) => {
       if (err) return next(err);
       res.send({
         posts: posts
