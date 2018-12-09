@@ -10,7 +10,7 @@ const postSchema  = new mongoose.Schema({
       },
       'Title is too long (120 max)'
     ],
-    default : "New Post Entry"
+    default : 'New Post Entry'
   },
   text : String,
   author : String,

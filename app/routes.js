@@ -66,7 +66,7 @@ module.exports = function (app, passport) {
 
   app.get('/publish', isLoggedIn, (req, res, next) => {
     Post.find({
-      "author": req.user.local.fullname
+      'author': req.user.local.fullname
     }, null, {
       sort: {
         _id: -1
